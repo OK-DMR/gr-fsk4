@@ -23,16 +23,16 @@
 #endif
 
 #include <gnuradio/io_signature.h>
+
+#include <utility>
 #include "generic_f_impl.h"
 
-namespace gr {
-  namespace fsk4 {
+namespace gr::fsk4 {
 
     generic_f::sptr
     generic_f::make(gr::msg_queue::sptr queue, int processing_flags)
     {
-      return gnuradio::get_initial_sptr
-        (new generic_f_impl(queue, processing_flags));
+      return gnuradio::get_initial_sptr(new generic_f_impl(queue, processing_flags));
     }
 
     /*
@@ -42,7 +42,7 @@ namespace gr {
       : gr::block("generic_f",
               gr::io_signature::make(1, 1, sizeof(float)),
               gr::io_signature::make(0, 0, 0)),
-      d_queue(queue)
+      d_queue(std::move(queue))
     {
         sym_counter = 0;
 
@@ -80,8 +80,8 @@ namespace gr {
     {
       unsigned char sym;
       
-      const float *in = (const float *) input_items[0];
-      float *out = (float *) output_items[0];
+      const auto *in = (const float *) input_items[0];
+      auto *out = (float *) output_items[0];
 
       // Do <+signal processing+>
       // run through all provided data; 
@@ -115,6 +115,5 @@ namespace gr {
       return 0;
     }
 
-  } /* namespace fsk4 */
-} /* namespace gr */
+  } /* namespace gr */
 

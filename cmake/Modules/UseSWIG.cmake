@@ -175,7 +175,7 @@ macro(SWIG_ADD_SOURCE_TO_MODULE name outfiles infile)
   file(RELATIVE_PATH reldir ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR})
   execute_process(
     COMMAND ${PYTHON_EXECUTABLE} -c "import re, hashlib
-unique = hashlib.md5('${reldir}${ARGN}').hexdigest()[:5]
+unique = hashlib.md5('${reldir}${ARGN}'.encode('ascii')).hexdigest()[:5]
 print(re.sub('\\W', '_', '${name} ${reldir} ' + unique))"
     OUTPUT_VARIABLE _target OUTPUT_STRIP_TRAILING_WHITESPACE
   )
@@ -253,7 +253,7 @@ macro(SWIG_ADD_MODULE name language)
 
   set(swig_generated_sources)
   foreach(it ${swig_dot_i_sources})
-    SWIG_ADD_SOURCE_TO_MODULE(${name} swig_generated_source ${it})
+    SWIG_ADD_SOURCE_TO_MODULE("${name}" swig_generated_source "${it}")
     set(swig_generated_sources ${swig_generated_sources} "${swig_generated_source}")
   endforeach()
   get_directory_property(swig_extra_clean_files ADDITIONAL_MAKE_CLEAN_FILES)

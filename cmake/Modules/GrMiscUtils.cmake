@@ -17,10 +17,30 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-if(DEFINED __INCLUDED_GR_MISC_UTILS_CMAKE)
-    return()
-endif()
-set(__INCLUDED_GR_MISC_UTILS_CMAKE TRUE)
+
+########################################################################
+# Generates the .la libtool file
+# This appears to generate libtool files that cannot be used by auto*.
+# Usage GR_LIBTOOL(TARGET [target] DESTINATION [dest])
+# Notice: there is not COMPONENT option, these will not get distributed.
+########################################################################
+function(GR_LIBTOOL)
+    if(NOT DEFINED GENERATE_LIBTOOL)
+        set(GENERATE_LIBTOOL OFF) #disabled by default
+    endif()
+
+    if(GENERATE_LIBTOOL)
+        include(CMakeParseArgumentsCopy)
+        CMAKE_PARSE_ARGUMENTS(GR_LIBTOOL "" "TARGET;DESTINATION" "" ${ARGN})
+
+        find_program(LIBTOOL libtool)
+        if(LIBTOOL)
+            include(CMakeMacroLibtoolFile)
+            CREATE_LIBTOOL_FILE(${GR_LIBTOOL_TARGET} /${GR_LIBTOOL_DESTINATION})
+        endif(LIBTOOL)
+    endif(GENERATE_LIBTOOL)
+
+endfunction(GR_LIBTOOL)
 
 ########################################################################
 # Set global variable macro.
@@ -103,30 +123,6 @@ macro(GR_ADD_CXX_COMPILER_FLAG_IF_AVAILABLE flag have)
       endif(${CMAKE_VERSION} VERSION_GREATER "2.8.4")
     endif(${have})
 endmacro(GR_ADD_CXX_COMPILER_FLAG_IF_AVAILABLE)
-
-########################################################################
-# Generates the .la libtool file
-# This appears to generate libtool files that cannot be used by auto*.
-# Usage GR_LIBTOOL(TARGET [target] DESTINATION [dest])
-# Notice: there is not COMPONENT option, these will not get distributed.
-########################################################################
-function(GR_LIBTOOL)
-    if(NOT DEFINED GENERATE_LIBTOOL)
-        set(GENERATE_LIBTOOL OFF) #disabled by default
-    endif()
-
-    if(GENERATE_LIBTOOL)
-        include(CMakeParseArgumentsCopy)
-        CMAKE_PARSE_ARGUMENTS(GR_LIBTOOL "" "TARGET;DESTINATION" "" ${ARGN})
-
-        find_program(LIBTOOL libtool)
-        if(LIBTOOL)
-            include(CMakeMacroLibtoolFile)
-            CREATE_LIBTOOL_FILE(${GR_LIBTOOL_TARGET} /${GR_LIBTOOL_DESTINATION})
-        endif(LIBTOOL)
-    endif(GENERATE_LIBTOOL)
-
-endfunction(GR_LIBTOOL)
 
 ########################################################################
 # Do standard things to the library target

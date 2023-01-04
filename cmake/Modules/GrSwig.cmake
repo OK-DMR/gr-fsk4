@@ -61,7 +61,6 @@ function(GR_SWIG_MAKE_DOCS output_file)
         @ONLY)
 
         #Create a dummy custom command that depends on other targets
-        include(GrMiscUtils)
         GR_GEN_TARGET_DEPS(_${name}_tag tag_deps ${GR_SWIG_DOCS_TARGET_DEPS})
 
         #call doxygen on the Doxyfile + input headers
@@ -127,7 +126,7 @@ macro(GR_SWIG_MAKE name)
     endif()
 
     #append additional include directories
-    find_package(PythonLibs 2)
+    find_package(PythonLibs 3)
     list(APPEND GR_SWIG_INCLUDE_DIRS ${PYTHON_INCLUDE_PATH}) #deprecated name (now dirs)
     list(APPEND GR_SWIG_INCLUDE_DIRS ${PYTHON_INCLUDE_DIRS})
 
@@ -203,6 +202,7 @@ macro(GR_SWIG_INSTALL)
             COMPONENT ${GR_SWIG_INSTALL_COMPONENT}
         )
 
+        include(GrMiscUtils)
         GR_LIBTOOL(
             TARGET ${SWIG_MODULE_${name}_REAL_NAME}
             DESTINATION ${GR_SWIG_INSTALL_DESTINATION}

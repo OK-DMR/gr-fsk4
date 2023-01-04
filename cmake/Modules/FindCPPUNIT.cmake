@@ -9,7 +9,9 @@
 # CPPUNIT_LIBRARIES, the libraries to link against to use CppUnit.
 # CPPUNIT_FOUND, If false, do not try to use CppUnit.
 
-INCLUDE(FindPkgConfig)
+if(NOT PKG_CONFIG_FOUND)
+    INCLUDE(FindPkgConfig)
+endif()
 PKG_CHECK_MODULES(PC_CPPUNIT "cppunit")
 
 FIND_PATH(CPPUNIT_INCLUDE_DIRS

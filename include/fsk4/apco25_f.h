@@ -38,7 +38,7 @@ namespace gr {
     class FSK4_API apco25_f : virtual public gr::block
     {
      public:
-      typedef boost::shared_ptr<apco25_f> sptr;
+      typedef std::shared_ptr<apco25_f> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of fsk4::apco25_f.

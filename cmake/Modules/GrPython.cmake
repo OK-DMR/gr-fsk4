@@ -36,11 +36,11 @@ if(PYTHON_EXECUTABLE)
 else(PYTHON_EXECUTABLE)
 
     #use the built-in find script
-    find_package(PythonInterp 2)
+    find_package(PythonInterp 3)
 
     #and if that fails use the find program routine
     if(NOT PYTHONINTERP_FOUND)
-        find_program(PYTHON_EXECUTABLE NAMES python python2 python2.7 python2.6 python2.5)
+        find_program(PYTHON_EXECUTABLE NAMES python python3 python3.11 python3.10 python3.9 python3.8 python3.7 python3.6 python3.5)
         if(PYTHON_EXECUTABLE)
             set(PYTHONINTERP_FOUND TRUE)
         endif(PYTHON_EXECUTABLE)
@@ -49,7 +49,7 @@ else(PYTHON_EXECUTABLE)
 endif(PYTHON_EXECUTABLE)
 
 if (CMAKE_CROSSCOMPILING)
-    set(QA_PYTHON_EXECUTABLE "/usr/bin/python")
+    set(QA_PYTHON_EXECUTABLE "/usr/bin/python3")
 else (CMAKE_CROSSCOMPILING)
     set(QA_PYTHON_EXECUTABLE ${PYTHON_EXECUTABLE})
 endif(CMAKE_CROSSCOMPILING)
@@ -119,7 +119,7 @@ file(TO_CMAKE_PATH ${GR_PYTHON_DIR} GR_PYTHON_DIR)
 function(GR_UNIQUE_TARGET desc)
     file(RELATIVE_PATH reldir ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR})
     execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import re, hashlib
-unique = hashlib.md5('${reldir}${ARGN}').hexdigest()[:5]
+unique = hashlib.md5('${reldir}${ARGN}'.encode('ascii')).hexdigest()[:5]
 print(re.sub('\\W', '_', '${desc} ${reldir} ' + unique))"
     OUTPUT_VARIABLE _target OUTPUT_STRIP_TRAILING_WHITESPACE)
     add_custom_target(${_target} ALL DEPENDS ${ARGN})
@@ -191,7 +191,7 @@ function(GR_PYTHON_INSTALL)
         file(TO_NATIVE_PATH ${PYTHON_EXECUTABLE} pyexe_native)
 
         if (CMAKE_CROSSCOMPILING)
-           set(pyexe_native "/usr/bin/env python")
+           set(pyexe_native "/usr/bin/env python3")
         endif()
 
         foreach(pyfile ${GR_PYTHON_INSTALL_PROGRAMS})

@@ -25,8 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "apco25_f_impl.h"
 
-namespace gr {
-  namespace fsk4 {
+namespace gr::fsk4 {
 
     apco25_f::sptr
     apco25_f::make(gr::msg_queue::sptr queue, int processing_flags)
@@ -244,6 +243,5 @@ namespace gr {
       return 0;
     }
 
-  } /* namespace fsk4 */
-} /* namespace gr */
+  } /* namespace gr */
 

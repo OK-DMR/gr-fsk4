@@ -20,7 +20,7 @@
 ########################################################################
 # Project setup
 ########################################################################
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.0)
 project(gr-fsk4 CXX C)
 enable_testing()
 
@@ -67,6 +67,7 @@ endif()
 # Install directories
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
+include(GrMiscUtils)
 set(GR_RUNTIME_DIR      bin)
 set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
 set(GR_INCLUDE_DIR      include/fsk4)
@@ -103,7 +104,7 @@ endif(APPLE)
 ########################################################################
 # Find gnuradio build dependencies
 ########################################################################
-find_package(CppUnit)
+find_package(CPPUNIT)
 find_package(Doxygen)
 
 # Search for GNU Radio and its components and versions. Add any
