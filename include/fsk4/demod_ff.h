@@ -27,8 +27,7 @@
 #include <gnuradio/msg_queue.h>
 #include <gnuradio/message.h>
 
-namespace gr {
-  namespace fsk4 {
+namespace gr::fsk4 {
 
     /*!
      * \brief <+description of block+>
@@ -38,7 +37,7 @@ namespace gr {
     class FSK4_API demod_ff : virtual public gr::block
     {
      public:
-      typedef std::shared_ptr<demod_ff> sptr;
+      typedef boost::shared_ptr<demod_ff> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of fsk4::demod_ff.
@@ -51,8 +50,7 @@ namespace gr {
       static sptr make(gr::msg_queue::sptr queue, float sample_rate, float symbol_rate);
     };
 
-  } // namespace fsk4
-} // namespace gr
+  } // namespace gr
 
 #endif /* INCLUDED_FSK4_DEMOD_FF_H */
 

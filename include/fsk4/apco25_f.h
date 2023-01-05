@@ -27,8 +27,7 @@
 #include <gnuradio/msg_queue.h>
 #include <gnuradio/message.h>
 
-namespace gr {
-  namespace fsk4 {
+namespace gr::fsk4 {
 
     /*!
      * \brief <+description of block+>
@@ -38,7 +37,7 @@ namespace gr {
     class FSK4_API apco25_f : virtual public gr::block
     {
      public:
-      typedef std::shared_ptr<apco25_f> sptr;
+      typedef boost::shared_ptr<apco25_f> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of fsk4::apco25_f.
@@ -51,8 +50,7 @@ namespace gr {
       static sptr make(gr::msg_queue::sptr queue, int processing_flags);
     };
 
-  } // namespace fsk4
-} // namespace gr
+  } // namespace gr
 
 #endif /* INCLUDED_FSK4_APCO25_F_H */
 

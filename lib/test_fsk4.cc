@@ -26,8 +26,10 @@
 
 #include <cppunit/TextTestRunner.h>
 #include <cppunit/XmlOutputter.h>
-
+#include <boost/filesystem.hpp>
+// unittests.h was missing for me in debian, gnuradio-dev=3.10.5.0-1, fixed by copying over from different version
 #include <gnuradio/unittests.h>
+
 #include "qa_fsk4.h"
 #include <iostream>
 #include <fstream>
@@ -37,7 +39,7 @@ main (int argc, char **argv)
 {
   CppUnit::TextTestRunner runner;
   std::ofstream xmlfile(get_unittest_path("fsk4.xml").c_str());
-  CppUnit::XmlOutputter *xmlout = new CppUnit::XmlOutputter(&runner.result(), xmlfile);
+  auto *xmlout = new CppUnit::XmlOutputter(&runner.result(), xmlfile);
 
   runner.addTest(qa_fsk4::suite());
   runner.setOutputter(xmlout);

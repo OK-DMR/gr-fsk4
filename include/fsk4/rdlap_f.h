@@ -37,7 +37,7 @@ namespace gr::fsk4 {
     class FSK4_API rdlap_f : virtual public gr::block
     {
      public:
-      typedef std::shared_ptr<rdlap_f> sptr;
+      typedef boost::shared_ptr<rdlap_f> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of fsk4::rdlap_f.

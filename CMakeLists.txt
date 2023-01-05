@@ -45,6 +45,9 @@ endif()
 ########################################################################
 # Find boost
 ########################################################################
+if(UNIX AND EXISTS "/usr/lib")
+    list(APPEND BOOST_LIBRARYDIR "/usr/lib")
+endif(UNIX AND EXISTS "/usr/lib")
 if(UNIX AND EXISTS "/usr/lib64")
     list(APPEND BOOST_LIBRARYDIR "/usr/lib64") #fedora 64-bit fix
 endif(UNIX AND EXISTS "/usr/lib64")
@@ -56,12 +59,10 @@ set(Boost_ADDITIONAL_VERSIONS
     "1.55.0" "1.55" "1.56.0" "1.56" "1.57.0" "1.57" "1.58.0" "1.58" "1.59.0" "1.59"
     "1.60.0" "1.60" "1.61.0" "1.61" "1.62.0" "1.62" "1.63.0" "1.63" "1.64.0" "1.64"
     "1.65.0" "1.65" "1.66.0" "1.66" "1.67.0" "1.67" "1.68.0" "1.68" "1.69.0" "1.69"
+    "1.74.0" "1.74" "1.81.0" "1.81"
 )
-find_package(Boost "1.35" COMPONENTS filesystem system)
-
-if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Boost required to compile fsk4")
-endif()
+find_package(Boost "1.74" REQUIRED COMPONENTS filesystem system)
+add_definitions(-DBOOST_NO_CXX11_SCOPED_ENUMS)
 
 ########################################################################
 # Install directories
@@ -112,7 +113,7 @@ find_package(Doxygen)
 # caps such as FILTER or FFT) and change the version to the minimum
 # API compatible version required.
 set(GR_REQUIRED_COMPONENTS RUNTIME)
-find_package(Gnuradio "3.7.2" REQUIRED)
+find_package(GnuradioRuntime REQUIRED)
 
 if(NOT CPPUNIT_FOUND)
     message(FATAL_ERROR "CppUnit required to compile fsk4")

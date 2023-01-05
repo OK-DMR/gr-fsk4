@@ -28,20 +28,21 @@ endif(NOT fsk4_sources)
 ########################################################################
 # Include swig generation macros
 ########################################################################
-find_package(SWIG)
-find_package(PythonLibs 3)
-if(NOT SWIG_FOUND OR NOT PYTHONLIBS_FOUND)
-    return()
-endif()
+find_package(SWIG REQUIRED)
+find_package(PythonLibs 3 REQUIRED)
+find_package(GnuradioRuntime REQUIRED)
 
 include(GrSwig)
 include(GrPython)
 include(GrMiscUtils)
+include(FindGnuradioRuntime)
 
 ########################################################################
 # Setup swig generation
 ########################################################################
+message("before gr_swig ${GNURADIO_RUNTIME_INCLUDE_DIRS}")
 foreach(incdir ${GNURADIO_RUNTIME_INCLUDE_DIRS})
+    message("inside gr_swig ${incdir}")
     list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gnuradio/swig)
 endforeach(incdir)
 

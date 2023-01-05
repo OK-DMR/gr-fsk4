@@ -1,6 +1,8 @@
 INCLUDE(FindPkgConfig)
 PKG_CHECK_MODULES(PC_GNURADIO_RUNTIME gnuradio-runtime)
 
+find_package(Gnuradio REQUIRED)
+
 if(PC_GNURADIO_RUNTIME_FOUND)
   # look for include files
   FIND_PATH(
@@ -28,6 +30,8 @@ if(PC_GNURADIO_RUNTIME_FOUND)
     )
 
   set(GNURADIO_RUNTIME_FOUND ${PC_GNURADIO_RUNTIME_FOUND})
+else()
+  message("findGnuradioRuntime not set PC_GNURADIO_RUNTIME_FOUND")
 endif(PC_GNURADIO_RUNTIME_FOUND)
 
 INCLUDE(FindPackageHandleStandardArgs)
