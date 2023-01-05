@@ -35,16 +35,15 @@
 #include <fstream>
 
 int
-main (int argc, char **argv)
-{
-  CppUnit::TextTestRunner runner;
-  std::ofstream xmlfile(get_unittest_path("fsk4.xml").c_str());
-  auto *xmlout = new CppUnit::XmlOutputter(&runner.result(), xmlfile);
+main(int argc, char **argv) {
+    CppUnit::TextTestRunner runner;
+    std::ofstream xmlfile(get_unittest_path("fsk4.xml").c_str());
+    auto *xmlout = new CppUnit::XmlOutputter(&runner.result(), xmlfile);
 
-  runner.addTest(qa_fsk4::suite());
-  runner.setOutputter(xmlout);
+    runner.addTest(qa_fsk4::suite());
+    runner.setOutputter(xmlout);
 
-  bool was_successful = runner.run("", false);
+    bool was_successful = runner.run("", false);
 
-  return was_successful ? 0 : 1;
+    return was_successful ? 0 : 1;
 }

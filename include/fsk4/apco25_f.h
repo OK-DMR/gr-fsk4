@@ -34,23 +34,22 @@ namespace gr::fsk4 {
      * \ingroup fsk4
      *
      */
-    class FSK4_API apco25_f : virtual public gr::block
-    {
-     public:
-      typedef boost::shared_ptr<apco25_f> sptr;
+    class FSK4_API apco25_f : virtual public gr::block {
+    public:
+        typedef boost::shared_ptr<apco25_f> sptr;
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of fsk4::apco25_f.
-       *
-       * To avoid accidental use of raw pointers, fsk4::apco25_f's
-       * constructor is in a private implementation
-       * class. fsk4::apco25_f::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(gr::msg_queue::sptr queue, int processing_flags);
+        /*!
+         * \brief Return a shared_ptr to a new instance of fsk4::apco25_f.
+         *
+         * To avoid accidental use of raw pointers, fsk4::apco25_f's
+         * constructor is in a private implementation
+         * class. fsk4::apco25_f::make is the public interface for
+         * creating new instances.
+         */
+        static sptr make(gr::msg_queue::sptr queue, int processing_flags);
     };
 
-  } // namespace gr
+} // namespace gr
 
 #endif /* INCLUDED_FSK4_APCO25_F_H */
 

@@ -30,75 +30,71 @@
 static const unsigned char apco25_sync[LEN_APCO25_SYNC] = {
 // Sync = 5575F5FF77FF
 // Or binary: 010101010111010111110101111111110111011111111111
-               1,1,1,1,1,3,1,1,3,3,1,1,3,3,3,3,1,3,1,3,3,3,3,3	// or in symbols          
+        1, 1, 1, 1, 1, 3, 1, 1, 3, 3, 1, 1, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3    // or in symbols
 };
 
 
 static const char apco25_duid_str[16][32] = {
-	"Header Data Unit",	// 0
-	"Reserved 1",		// 1
-	"Reserved 2",			// 2
-	"Terminator w/o Link Ctrl",	// 3
-	"Reserved 4",			// 4
-	"Logical Link Data Unit 1",	// 5
-	"Reserved 6 (Astro VSELP?)",    // 6
-	"Trunking Signaling Data Unit",	// 7
-	"Reserved 8",			// 8
-	"Reserved 9 (Astro VSELP?)",	// 9
-	"Logical Link Data Unit 2",	// A
-	"Reserved B",			// B
-	"Packet Data Unit",		// C
-	"Reserved D",			// D
-	"Reserved E",			// E
-	"Terminator with Link Ctrl"	// F
+        "Header Data Unit",    // 0
+        "Reserved 1",        // 1
+        "Reserved 2",            // 2
+        "Terminator w/o Link Ctrl",    // 3
+        "Reserved 4",            // 4
+        "Logical Link Data Unit 1",    // 5
+        "Reserved 6 (Astro VSELP?)",    // 6
+        "Trunking Signaling Data Unit",    // 7
+        "Reserved 8",            // 8
+        "Reserved 9 (Astro VSELP?)",    // 9
+        "Logical Link Data Unit 2",    // A
+        "Reserved B",            // B
+        "Packet Data Unit",        // C
+        "Reserved D",            // D
+        "Reserved E",            // E
+        "Terminator with Link Ctrl"    // F
 };
 
-namespace gr {
-  namespace fsk4 {
+namespace gr::fsk4 {
 
-    class apco25_f_impl : public apco25_f
-    {
-     private:
-        gr::msg_queue::sptr d_queue;		 
+        class apco25_f_impl final : public apco25_f {
+        private:
+            gr::msg_queue::sptr d_queue;
 
 
-        int sym_counter;
-
-        bool reverse_polarity;
+            bool reverse_polarity;
 
 
+            void framer(unsigned char sym);
 
-        void framer(unsigned char sym);
-        int framer_state;
-        unsigned char framer_buffer[NFRAMER_BUFFER_APCO25];
-        int iframer_buffer;
-        int symbol_counter;
+            int framer_state;
+            unsigned char framer_buffer[NFRAMER_BUFFER_APCO25]{};
+            int iframer_buffer;
+            int symbol_counter;
 
-        void strip_status_syms(unsigned char sym);
+            void strip_status_syms(unsigned char sym);
 
-        unsigned char data_unit[2048];
+            unsigned char data_unit[2048]{};
 
-        int process_NID(unsigned char *dd);
+            int process_NID(const unsigned char *dd);
 
-        int process_HDU(unsigned char *dd);
+            static int process_HDU(const unsigned char *dd);
 
-        int apco25_nid_nac, apco25_nid_duid;
+            int apco25_nid_nac{}, apco25_nid_duid{};
 
-     public:
-      apco25_f_impl(gr::msg_queue::sptr queue, int processing_flags);
-      ~apco25_f_impl();
+        public:
+            apco25_f_impl(gr::msg_queue::sptr queue, int processing_flags);
 
-      // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+            ~apco25_f_impl() override;
 
-      int general_work(int noutput_items,
-           gr_vector_int &ninput_items,
-           gr_vector_const_void_star &input_items,
-           gr_vector_void_star &output_items);
-    };
+            // Where all the action really happens
+            void forecast(int noutput_items, gr_vector_int &ninput_items_required) override;
 
-  } // namespace fsk4
-} // namespace gr
+            int general_work(int noutput_items,
+                             gr_vector_int &ninput_items,
+                             gr_vector_const_void_star &input_items,
+                             gr_vector_void_star &output_items) override;
+        };
+
+    } // namespace gr
 
 #endif /* INCLUDED_FSK4_APCO25_F_IMPL_H */
 

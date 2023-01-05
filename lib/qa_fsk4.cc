@@ -28,9 +28,6 @@
 #include "qa_fsk4.h"
 
 CppUnit::TestSuite *
-qa_fsk4::suite()
-{
-  CppUnit::TestSuite *s = new CppUnit::TestSuite("fsk4");
-
-  return s;
+qa_fsk4::suite() {
+    return new CppUnit::TestSuite("fsk4");
 }

@@ -32,7 +32,7 @@
 // (having been remapped from -3, -1, +1, +3)
 #define LEN_RDLAP_SYNC 24
 static const unsigned char rdlap_sync[LEN_RDLAP_SYNC] = {
-	1,2,1,2,1,3,0,3,0,1,2,0,3,3,1,2,0,0,2,3,1,0,2,3
+        1, 2, 1, 2, 1, 3, 0, 3, 0, 1, 2, 0, 3, 3, 1, 2, 0, 0, 2, 3, 1, 0, 2, 3
 };
 
 
@@ -40,69 +40,74 @@ static const unsigned char rdlap_sync[LEN_RDLAP_SYNC] = {
 // block of i'th symbol pair.  There are 69 symbols in a block (index 0-68) & we
 // skip 3 status symbols at positions 22, 45, and 68 leaveing 33 symbol pairs as
 // an output that can be sent through a Viterbi algorithm
-static const int block_interleave[64]={
-  0, 18, 35, 52, 
-  2, 20, 37, 54,
-  4, 23, 39, 56, 
-  6, 25, 41, 58,
-  8, 27, 43, 60,
- 10, 29, 46, 62,
- 12, 31, 48, 64,
- 14, 33, 50, 66,
- 16
+static const int block_interleave[64] = {
+        0, 18, 35, 52,
+        2, 20, 37, 54,
+        4, 23, 39, 56,
+        6, 25, 41, 58,
+        8, 27, 43, 60,
+        10, 29, 46, 62,
+        12, 31, 48, 64,
+        14, 33, 50, 66,
+        16
 };
 
 namespace gr {
-  namespace fsk4 {
+    namespace fsk4 {
 
-    class rdlap_f_impl : public rdlap_f
-    {
-     private:
-        gr::msg_queue::sptr d_queue;
-        
-        // ----- rd-lap processing: framer detects & splits off frame sync
-        void framer(unsigned char sym);
-        int framer_state;
-        unsigned char framer_buffer[NFRAMER_BUFFER];
-        int iframer_buffer;
+        class rdlap_f_impl : public rdlap_f {
+        private:
+            gr::msg_queue::sptr d_queue;
 
-        // ----- all higher level processing takes place in groups of 69 symbols...
-        void accumulate_block(unsigned char sym);
-        int accumulate_block_index;
-        unsigned char accumulate_block_buffer[128];
+            // ----- rd-lap processing: framer detects & splits off frame sync
+            void framer(unsigned char sym);
 
-        int processed_blocks_since_sync;
+            int framer_state;
+            unsigned char framer_buffer[NFRAMER_BUFFER]{};
+            int iframer_buffer;
 
-        void process_block();
+            // ----- all higher level processing takes place in groups of 69 symbols...
+            void accumulate_block(unsigned char sym);
 
-        // ----- viterbi error correction related
-        int  viterbi_SED(int s1, int s2);
-        void viterbi_reset(void);
-        void viterbi_add_data(int cc);
-        int  viterbi_return_data(unsigned char *data);
+            int accumulate_block_index;
+            unsigned char accumulate_block_buffer[128]{};
 
+            int processed_blocks_since_sync{};
 
-        // ----- header block crc
-        int test_CRC2(unsigned char *dd);
+            void process_block();
 
+            // ----- viterbi error correction related
+            static int viterbi_SED(int s1, int s2);
 
-        bool reverse_polarity;
+            static void viterbi_reset(void);
+
+            static void viterbi_add_data(int cc);
+
+            static int viterbi_return_data(unsigned char *data);
 
 
-     public:
-      rdlap_f_impl(gr::msg_queue::sptr queue, int processing_flags);
-      ~rdlap_f_impl();
+            // ----- header block crc
+            static int test_CRC2(const unsigned char *dd);
 
-      // Where all the action really happens
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
-      int general_work(int noutput_items,
-           gr_vector_int &ninput_items,
-           gr_vector_const_void_star &input_items,
-           gr_vector_void_star &output_items);
-    };
+            bool reverse_polarity;
 
-  } // namespace fsk4
+
+        public:
+            rdlap_f_impl(gr::msg_queue::sptr queue, int processing_flags);
+
+            ~rdlap_f_impl();
+
+            // Where all the action really happens
+            void forecast(int noutput_items, gr_vector_int &ninput_items_required);
+
+            int general_work(int noutput_items,
+                             gr_vector_int &ninput_items,
+                             gr_vector_const_void_star &input_items,
+                             gr_vector_void_star &output_items);
+        };
+
+    } // namespace fsk4
 } // namespace gr
 
 #endif /* INCLUDED_FSK4_RDLAP_F_IMPL_H */

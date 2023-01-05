@@ -28,30 +28,29 @@
 #include <gnuradio/message.h>
 
 namespace gr {
-  namespace fsk4 {
+    namespace fsk4 {
 
-    /*!
-     * \brief <+description of block+>
-     * \ingroup fsk4
-     *
-     */
-    class FSK4_API generic_f : virtual public gr::block
-    {
-     public:
-      typedef boost::shared_ptr<generic_f> sptr;
+        /*!
+         * \brief <+description of block+>
+         * \ingroup fsk4
+         *
+         */
+        class FSK4_API generic_f : virtual public gr::block {
+        public:
+            typedef boost::shared_ptr<generic_f> sptr;
 
-      /*!
-       * \brief Return a shared_ptr to a new instance of fsk4::generic_f.
-       *
-       * To avoid accidental use of raw pointers, fsk4::generic_f's
-       * constructor is in a private implementation
-       * class. fsk4::generic_f::make is the public interface for
-       * creating new instances.
-       */
-      static sptr make(gr::msg_queue::sptr queue, int processing_flags);
-    };
+            /*!
+             * \brief Return a shared_ptr to a new instance of fsk4::generic_f.
+             *
+             * To avoid accidental use of raw pointers, fsk4::generic_f's
+             * constructor is in a private implementation
+             * class. fsk4::generic_f::make is the public interface for
+             * creating new instances.
+             */
+            static sptr make(gr::msg_queue::sptr queue, int processing_flags);
+        };
 
-  } // namespace fsk4
+    } // namespace fsk4
 } // namespace gr
 
 #endif /* INCLUDED_FSK4_GENERIC_F_H */

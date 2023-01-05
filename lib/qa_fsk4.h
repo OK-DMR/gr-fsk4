@@ -28,11 +28,10 @@
 
 //! collect all the tests for the gr-filter directory
 
-class __GR_ATTR_EXPORT qa_fsk4
-{
- public:
-  //! return suite of tests for all of gr-filter directory
-  static CppUnit::TestSuite *suite();
+class __GR_ATTR_EXPORT qa_fsk4 {
+public:
+    //! return suite of tests for all of gr-filter directory
+    static CppUnit::TestSuite *suite();
 };
 
 #endif /* _QA_FSK4_H_ */

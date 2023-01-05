@@ -21,9 +21,9 @@
 # Install public header files
 ########################################################################
 install(FILES
-    api.h
-    demod_ff.h
-    generic_f.h
-    apco25_f.h
-    rdlap_f.h DESTINATION include/fsk4
-)
+        api.h
+        demod_ff.h
+        generic_f.h
+        apco25_f.h
+        rdlap_f.h DESTINATION include/fsk4
+        )
